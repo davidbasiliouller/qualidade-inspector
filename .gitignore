@@ -1,0 +1,6 @@
+.env 
+qualidade.db 
+__pycache__/ 
+*.pyc 
+qualidade/.env 
+qualidade/qualidade.db 

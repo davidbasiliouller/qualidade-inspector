@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Peça</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+
+    <div class="pagina">
+
+        <header class="cabecalho-pagina">
+            <a href="index.html" class="link-voltar">Voltar</a>
+            <h1 class="titulo-pagina">Cadastrar Peça</h1>
+            
+        </header>
+
+
+        <main class="conteudo">
+
+            <div class="card">
+
+                <div class="campo-formulario">
+                    <label class="campo-formulario__label" for="nome-peca">
+                        Nome da peça
+                    </label>
+                    <input
+                        type="text"
+                        id="nome-peca"
+                        class="campo-formulario__input"
+                        placeholder="Ex: Tampa lateral modelo A"
+                    >
+                    <span class="campo-formulario__dica">
+                        Use um nome único e descritivo para identificar esta peça no sistema
+                    </span>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="campo-formulario__label">
+                        Fotos de peças aprovadas
+                    </label>
+                    <span class="campo-formulario__dica">
+                        Envie de 3 a 10 fotos de peças em boas condições. A IA vai analisar as fotos e criar o critério de qualidade automaticamente.
+                    </span>
+
+                    <div class="area-upload" id="area-upload">
+                        <p class="area-upload__texto">Clique aqui para selecionar as fotos</p>
+                        <p class="area-upload__subtexto">Mínimo 3 fotos, máximo 10</p>
+                        <input
+                            type="file"
+                            id="input-fotos"
+                            class="area-upload__input"
+                            accept="image/*"
+                            multiple
+                        >
+                    </div>
+
+                    <div class="galeria-preview" id="galeria-preview"></div>
+
+                    <span class="contador-fotos" id="contador-fotos">0 foto(s) selecionada(s)</span>
+                </div>
+
+                <button class="botao botao--primario" id="botao-cadastrar">
+                    Cadastrar Peça
+                </button>
+
+            </div>
+
+            <!-- Bloco de resultado, fica oculto até o cadastro ser concluído -->
+            <div class="resultado-cadastro" id="resultado-cadastro" style="display: none;">
+
+                <div class="resultado-cadastro__icone">&#10003;</div>
+                <h2 class="resultado-cadastro__titulo">Peça cadastrada com sucesso</h2>
+
+                <div class="criterio-gerado">
+                    <h3 class="criterio-gerado__titulo">Critério de qualidade gerado pela IA:</h3>
+                    <p class="criterio-gerado__texto" id="criterio-texto"></p>
+                </div>
+
+                <div class="container-botoes-resultado">
+                    <button class="botao botao--secundario" id="botao-novo-cadastro">
+                        Cadastrar outra peça
+                    </button>
+                    <a href="classificar.html" class="botao botao--primario">
+                        Ir para Classificação
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bloco de carregamento, fica oculto até o envio -->
+            <div class="carregamento" id="carregamento" style="display: none;">
+                <div class="carregamento__spinner"></div>
+                <p class="carregamento__texto">Analisando as fotos e gerando o critério de qualidade...</p>
+            </div>
+
+        </main>
+
+    </div>
+    
+
+    <script src="cadastrar.js"></script>
+
+
+</body>
+</html>

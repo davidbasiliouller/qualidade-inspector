@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificar Peça</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+    <div class="pagina">
+
+        <header class="cabecalho-pagina">
+            <a href="index.html" class="link-voltar">Voltar</a>
+            <h1 class="titulo-pagina">Classificar Peça</h1>
+        </header>
+
+
+        <main class="conteudo">
+
+            <!-- Formulário de classificação -->
+            <div class="card" id="formulario-classificacao">
+
+                <div class="campo-formulario">
+                    <label class="campo-formulario__label" for="selecao-peca">
+                        Selecione a peça
+                    </label>
+                    <select id="selecao-peca" class="campo-formulario__select">
+                        <option value="">Carregando peças cadastradas...</option>
+                    </select>
+                    <span class="campo-formulario__dica">
+                        Selecione qual peça será inspecionada
+                    </span>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="campo-formulario__label">
+                        Foto da peça para inspeção
+                    </label>
+                    <span class="campo-formulario__dica">
+                        Envie uma foto clara da peça que será analisada
+                    </span>
+
+                    <div class="area-upload" id="area-upload-classificar">
+                        <p class="area-upload__texto">Clique aqui para selecionar a foto</p>
+                        <p class="area-upload__subtexto">Apenas uma foto</p>
+                        <input
+                            type="file"
+                            id="input-foto-classificar"
+                            class="area-upload__input"
+                            accept="image/*"
+                        >
+                    </div>
+
+                    <!-- Preview da foto selecionada -->
+                    <div class="preview-classificar" id="preview-classificar" style="display: none;">
+                        <img id="imagem-preview" class="preview-classificar__imagem" src="" alt="Preview da peça">
+                        <button class="preview-classificar__remover" id="botao-remover-foto">Remover foto</button>
+                    </div>
+
+                </div>
+
+                <button class="botao botao--primario" id="botao-classificar">
+                    Classificar Peça
+                </button>
+
+            </div>
+
+            <!-- Bloco de carregamento -->
+            <div class="carregamento" id="carregamento" style="display: none;">
+                <div class="carregamento__spinner"></div>
+                <p class="carregamento__texto">Analisando a peça com inteligência artificial...</p>
+            </div>
+
+            <!-- Resultado da classificação, fica oculto até a resposta chegar -->
+            <div class="resultado-classificacao" id="resultado-classificacao" style="display: none;">
+
+                <div class="resultado-classificacao__badge" id="badge-resultado"></div>
+                <p class="resultado-classificacao__justificativa" id="justificativa-resultado"></p>
+
+                <button class="botao botao--secundario" id="botao-nova-classificacao">
+                    Classificar outra peça
+                </button>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="classificar.js"></script>
+
+</body>
+</html>

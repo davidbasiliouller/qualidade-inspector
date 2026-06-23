@@ -1,0 +1,601 @@
+/* ============================================================
+   VARIAVEIS GLOBAIS
+   Altere os valores aqui para mudar o visual do sistema inteiro
+   sem precisar procurar cor por cor em cada elemento
+   ============================================================ */
+:root {
+    /* Cores principais do sistema */
+    --cor-primaria: #1a56db;
+    --cor-primaria-escura: #1347b8;
+    --cor-secundaria: #6b7280;
+    --cor-secundaria-escura: #4b5563;
+
+    /* Cores de status da classificacao */
+    --cor-aprovado: #16a34a;
+    --cor-aprovado-fundo: #dcfce7;
+    --cor-reprovado: #dc2626;
+    --cor-reprovado-fundo: #fee2e2;
+    --cor-revisar: #d97706;
+    --cor-revisar-fundo: #fef3c7;
+
+    /* Cores de interface */
+    --cor-fundo-pagina: #f3f4f6;
+    --cor-fundo-card: #ffffff;
+    --cor-borda: #e5e7eb;
+    --cor-texto-principal: #111827;
+    --cor-texto-secundario: #6b7280;
+    --cor-texto-dica: #9ca3af;
+
+    /* Espacamentos padrao do sistema */
+    --espaco-pequeno: 8px;
+    --espaco-medio: 16px;
+    --espaco-grande: 24px;
+    --espaco-extra: 40px;
+
+    /* Bordas arredondadas */
+    --raio-pequeno: 6px;
+    --raio-medio: 10px;
+    --raio-grande: 16px;
+
+    /* Sombra dos cards */
+    --sombra-card: 0 1px 4px rgba(0, 0, 0, 0.08);
+    --sombra-card-hover: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+
+/* ============================================================
+   RESET BASICO
+   Remove estilos padrao do navegador para ter controle total
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-principal);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ============================================================
+   LAYOUTS DE PAGINA
+   Define a estrutura geral das paginas do sistema
+   ============================================================ */
+
+/* Layout da pagina inicial (centralizado vertical e horizontalmente) */
+.pagina-central {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--espaco-grande);
+}
+
+/* Layout das paginas internas (cadastrar, classificar) */
+.pagina {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Area de conteudo principal das paginas internas */
+.conteudo {
+    flex: 1;
+    padding: var(--espaco-grande) var(--espaco-medio);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   CABECALHO
+   Estilos do topo das paginas
+   ============================================================ */
+
+/* Cabecalho da pagina inicial */
+.cabecalho {
+    text-align: center;
+    margin-bottom: var(--espaco-extra);
+}
+
+.titulo-sistema {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espaco-pequeno);
+}
+
+.subtitulo-sistema {
+    font-size: 15px;
+    color: var(--cor-texto-secundario);
+}
+
+/* Cabecalho das paginas internas com botao de voltar */
+.cabecalho-pagina {
+    background-color: var(--cor-fundo-card);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: var(--espaco-medio);
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-medio);
+}
+
+.titulo-pagina {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.link-voltar {
+    font-size: 14px;
+    color: var(--cor-primaria);
+    padding: 4px 10px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: var(--raio-pequeno);
+}
+
+.link-voltar:hover {
+    background-color: var(--cor-primaria);
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   BOTOES CARTAO DA TELA INICIAL
+   Os dois grandes botoes de Cadastrar e Classificar
+   ============================================================ */
+.container-botoes-home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-grande);
+    width: 100%;
+    max-width: 480px;
+}
+
+/* Base dos dois cartoes */
+.cartao-botao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-grande);
+    padding: var(--espaco-grande);
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra-card);
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.cartao-botao:hover {
+    box-shadow: var(--sombra-card-hover);
+    transform: translateY(-2px);
+}
+
+/* Icone circular dentro do cartao */
+.cartao-botao__icone {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+/* Cor do icone do botao de cadastrar (azul) */
+.cartao-botao--cadastrar .cartao-botao__icone {
+    background-color: var(--cor-primaria);
+}
+
+/* Cor do icone do botao de classificar (verde) */
+.cartao-botao--classificar .cartao-botao__icone {
+    background-color: var(--cor-aprovado);
+}
+
+.cartao-botao__texto {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cartao-botao__titulo {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+}
+
+.cartao-botao__descricao {
+    font-size: 13px;
+    color: var(--cor-texto-secundario);
+    line-height: 1.4;
+}
+
+
+/* ============================================================
+   CARD
+   Container branco que agrupa os elementos dos formularios
+   ============================================================ */
+.card {
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    padding: var(--espaco-grande);
+    box-shadow: var(--sombra-card);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-grande);
+    margin-top: var(--espaco-grande);
+}
+
+
+/* ============================================================
+   CAMPOS DE FORMULARIO
+   Estilos para label, input, select e textos de dica
+   ============================================================ */
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-pequeno);
+}
+
+.campo-formulario__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+}
+
+.campo-formulario__dica {
+    font-size: 13px;
+    color: var(--cor-texto-dica);
+    line-height: 1.4;
+}
+
+.campo-formulario__input,
+.campo-formulario__select {
+    padding: 10px 14px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    font-size: 15px;
+    color: var(--cor-texto-principal);
+    background-color: var(--cor-fundo-card);
+    width: 100%;
+    outline: none;
+}
+
+.campo-formulario__input:focus,
+.campo-formulario__select:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+}
+
+
+/* ============================================================
+   AREA DE UPLOAD
+   Zona clicavel para selecionar arquivos
+   ============================================================ */
+.area-upload {
+    position: relative;
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    padding: var(--espaco-extra) var(--espaco-grande);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    margin-top: var(--espaco-pequeno);
+}
+
+.area-upload:hover {
+    border-color: var(--cor-primaria);
+    background-color: rgba(26, 86, 219, 0.03);
+}
+
+/* O input de arquivo ocupa toda a area clicavel mas fica invisivel */
+.area-upload__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.area-upload__texto {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--cor-primaria);
+}
+
+.area-upload__subtexto {
+    font-size: 13px;
+    color: var(--cor-texto-dica);
+    margin-top: 4px;
+}
+
+
+/* ============================================================
+   GALERIA DE PREVIEW
+   Grade de miniaturas das fotos selecionadas no cadastro
+   ============================================================ */
+.galeria-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: var(--espaco-pequeno);
+    margin-top: var(--espaco-pequeno);
+}
+
+.galeria-preview__item {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--raio-pequeno);
+    border: 1px solid var(--cor-borda);
+}
+
+.contador-fotos {
+    font-size: 13px;
+    color: var(--cor-texto-secundario);
+}
+
+
+/* ============================================================
+   PREVIEW DA CLASSIFICACAO
+   Exibe a foto selecionada antes de enviar para analise
+   ============================================================ */
+.preview-classificar {
+    margin-top: var(--espaco-medio);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-pequeno);
+}
+
+.preview-classificar__imagem {
+    max-width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: var(--raio-medio);
+    border: 1px solid var(--cor-borda);
+}
+
+.preview-classificar__remover {
+    font-size: 13px;
+    color: var(--cor-reprovado);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.preview-classificar__remover:hover {
+    text-decoration: underline;
+}
+
+
+/* ============================================================
+   BOTOES DE ACAO
+   Estilos dos botoes de submit e navegacao
+   ============================================================ */
+.botao {
+    padding: 12px 24px;
+    border-radius: var(--raio-pequeno);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+/* Botao azul principal */
+.botao--primario {
+    background-color: var(--cor-primaria);
+    color: #ffffff;
+}
+
+.botao--primario:hover {
+    background-color: var(--cor-primaria-escura);
+}
+
+/* Botao cinza secundario */
+.botao--secundario {
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+}
+
+.botao--secundario:hover {
+    background-color: var(--cor-borda);
+}
+
+/* Estado desabilitado (durante o carregamento) */
+.botao:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   CARREGAMENTO
+   Spinner e texto exibidos durante chamadas para a API
+   ============================================================ */
+.carregamento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-medio);
+    padding: var(--espaco-extra);
+    margin-top: var(--espaco-grande);
+}
+
+/* Circulo animado do spinner */
+.carregamento__spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid var(--cor-borda);
+    border-top-color: var(--cor-primaria);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+.carregamento__texto {
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+    text-align: center;
+}
+
+
+/* ============================================================
+   RESULTADO DO CADASTRO
+   Bloco exibido apos o cadastro ser concluido com sucesso
+   ============================================================ */
+.resultado-cadastro {
+    text-align: center;
+    padding: var(--espaco-grande);
+    margin-top: var(--espaco-grande);
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-grande);
+}
+
+.resultado-cadastro__icone {
+    width: 60px;
+    height: 60px;
+    background-color: var(--cor-aprovado);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.resultado-cadastro__titulo {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Caixa com o criterio gerado pela IA */
+.criterio-gerado {
+    background-color: var(--cor-fundo-pagina);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    padding: var(--espaco-medio);
+    text-align: left;
+    width: 100%;
+}
+
+.criterio-gerado__titulo {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+    margin-bottom: var(--espaco-pequeno);
+}
+
+.criterio-gerado__texto {
+    font-size: 14px;
+    color: var(--cor-texto-principal);
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.container-botoes-resultado {
+    display: flex;
+    gap: var(--espaco-medio);
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.container-botoes-resultado .botao {
+    flex: 1;
+    min-width: 160px;
+}
+
+
+/* ============================================================
+   RESULTADO DA CLASSIFICACAO
+   Bloco exibido apos a analise da peca
+   ============================================================ */
+.resultado-classificacao {
+    margin-top: var(--espaco-grande);
+    padding: var(--espaco-grande);
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-grande);
+    text-align: center;
+}
+
+/* Badge grande com a classificacao (APROVADO, REPROVADO, REVISAR) */
+.resultado-classificacao__badge {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 14px 40px;
+    border-radius: var(--raio-grande);
+    letter-spacing: 1px;
+}
+
+/* Cores do badge de acordo com o resultado */
+.badge--aprovado {
+    background-color: var(--cor-aprovado-fundo);
+    color: var(--cor-aprovado);
+}
+
+.badge--reprovado {
+    background-color: var(--cor-reprovado-fundo);
+    color: var(--cor-reprovado);
+}
+
+.badge--revisar {
+    background-color: var(--cor-revisar-fundo);
+    color: var(--cor-revisar);
+}
+
+.resultado-classificacao__justificativa {
+    font-size: 15px;
+    color: var(--cor-texto-secundario);
+    max-width: 420px;
+    line-height: 1.6;
+}
+
+.imagem-senai {
+  display: flex;
+  justify-content: center; /* Empurra a imagem para a direita */
+  align-items: center; 
+    
+}
+
+.imagem-senai img {
+    mix-blend-mode: multiply;
+    display: block;
+    max-width: 20%; /* Garante responsividade */
+    height: auto;
+}
