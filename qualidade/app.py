@@ -2,6 +2,8 @@ import os
 import json
 import base64
 import sqlite3
+import threading
+import webbrowser
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
 from groq import Groq
@@ -198,20 +200,19 @@ def classificar_peca():
         imagem_base64 = 'data:image/jpeg;base64,' + imagem_base64
 
     instrucao = (
-        f"Voce e um inspetor de qualidade industrial rigoroso e criterioso.\n\n"
+        f"Voce e um inspetor de qualidade industrial rigoroso e criterioso. Sua tarefa e classificar uma peca com base em criterios de qualidade e uma imagem fornecida. Siga as regras de classificacao abaixo em ordem estrita de prioridade, aplicando a primeira classificacao que se encaixar e excluindo as demais.\n\n"
         f"Criterio de qualidade aprovado para esta peca:\n{criterio_qualidade}\n\n"
         f"Analise a imagem com atencao e compare cada detalhe com o criterio acima.\n\n"
-        f"Regras de classificacao obrigatorias:\n"
-        f"- APROVADO: a peca atende integralmente todos os criterios. Nenhum defeito visivel.\n"
-        f"- REPROVADO: ha qualquer defeito claro como vazamento, mancha, deformacao, dano fisico, "
-        f"sujeira, trinca, irregularidade de forma ou descumprimento de qualquer item do criterio. "
-        f"Em caso de duvida entre REPROVADO e REVISAR, classifique como REPROVADO.\n"
-        f"- REVISAR: use APENAS quando o possivel defeito for minimo, quase imperceptivel e "
-        f"pode ser erro da foto como angulo ou iluminacao ruim. Nunca use REVISAR para defeitos visiveis.\n\n"
-        f"Seja direto e rigoroso. Na industria e melhor reprovar uma peca boa do que aprovar uma peca ruim.\n\n"
-        f"Responda APENAS com JSON no formato abaixo, sem texto adicional:\n"
-        f'{{"classificacao": "APROVADO", "justificativa": "motivo objetivo em uma frase"}}'
-        )
+        f"Regras de classificacao obrigatorias (siga a ordem de prioridade e exclusao):\n"
+        f"1. APROVADO: Classifique como APROVADO APENAS SE a peca atender integralmente a TODOS os criterios de qualidade E nao apresentar NENHUM defeito visivel. Se esta condicao for verdadeira, NENHUMA outra classificacao pode ser aplicada.\n"
+        f"2. REPROVADO: Classifique como REPROVADO APENAS SE a peca NAO for APROVADA E apresentar defeitos claros e graves que a tornem inadequada para qualquer uso ou venda. Exemplos de defeitos graves: deformacao estrutural, dano fisico grave, contaminacao visivel, ou descumprimento grave do criterio. Se esta condicao for verdadeira, a peca NAO pode ser APTO PARA DOACAO ou REVISAR.\n"
+        f"3. APTO PARA DOACAO: Classifique como APTO PARA DOACAO APENAS SE a peca NAO for APROVADA E NAO for REPROVADA (por defeitos graves) E apresentar defeitos leves que impedem a venda normal, mas que ainda garantem utilidade pratica. Exemplos de defeitos leves: pequeno arranhao superficial, leve variacao de cor, imperfeicao estetica sem comprometer a funcionalidade. Se esta condicao for verdadeira, a peca NAO pode ser REVISAR.\n"
+        f"4. REVISAR: Classifique como REVISAR APENAS SE a peca NAO for APROVADA, NAO for REPROVADA, E NAO for APTO PARA DOACAO, E a duvida sobre um possivel defeito for MINIMA e puder ser um erro de foto ou iluminacao. Em caso de qualquer duvida significativa sobre a gravidade de um defeito, priorize REPROVADO.\n\n"
+        f"Em caso de duvida entre REPROVADO e APTO PARA DOACAO, avalie: a peca ainda e segura e utilizavel por outra pessoa? Se sim, classifique como APTO PARA DOACAO. Se nao, classifique como REPROVADO.\n\n"
+        f"Lembre-se: Na industria e melhor reprovar uma peca boa do que aprovar uma peca ruim.\n\n"
+        f"Responda APENAS com JSON no formato abaixo, sem texto adicional. A classificacao deve ser uma das seguintes: 'APROVADO', 'REPROVADO', 'APTO PARA DOACAO', 'REVISAR'.\n"
+        f'{{"classificacao": "APROVADO", "justificativa": "motivo objetivo em duas frases"}}'
+         )
 
     try:
         resposta = cliente.chat.completions.create(
@@ -262,5 +263,12 @@ def classificar_peca():
 
 if __name__ == '__main__':
     inicializar_banco()
+
+    def abrir_navegador():
+        webbrowser.open("http://localhost:5000")
+
+    if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+        threading.Timer(1, abrir_navegador).start()
+
     print("Sistema rodando em: http://localhost:5000")
     app.run(debug=True, port=5000)
