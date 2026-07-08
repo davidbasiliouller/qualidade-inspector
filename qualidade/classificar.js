@@ -149,24 +149,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Exibe o bloco de resultado com o badge colorido e a justificativa
     function exibirResultado(classificacao, justificativa) {
-        // Define o texto do badge
         badgeResultado.textContent = classificacao;
-
-        // Remove classes de cor anteriores e aplica a correta para este resultado
-        badgeResultado.classList.remove('badge--aprovado', 'badge--reprovado', 'badge--revisar');
-
+    
+        badgeResultado.classList.remove(
+            'badge--aprovado',
+            'badge--reprovado',
+            'badge--revisar',
+            'badge--doacao'
+        );
+    
         if (classificacao === 'APROVADO') {
             badgeResultado.classList.add('badge--aprovado');
         } else if (classificacao === 'REPROVADO') {
             badgeResultado.classList.add('badge--reprovado');
+        } else if (classificacao === 'APTO PARA DOACAO') {
+            badgeResultado.classList.add('badge--doacao');
         } else {
             badgeResultado.classList.add('badge--revisar');
         }
-
-        // Exibe a justificativa gerada pela IA
+    
         justificativaResultado.textContent = justificativa;
-
-        // Mostra o bloco de resultado
         resultadoContainer.style.display = 'flex';
     }
 
